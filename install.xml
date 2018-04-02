@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<name>SuperMenu integration OCmod</name>
+	<version>1.0</version>
+	<link>http://shopencart.com</link>
+	<code>shopencart-supermenu</code>
+	<file path="catalog/controller/common/header.php">
+		<operation>
+			<search position="replace"><![CDATA[$categories = $this->model_catalog_category->getCategories(0);]]></search>
+			<add><![CDATA[$categories = array();]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[$data['language'] = $this->load->controller('common/language');]]></search>
+			<add><![CDATA[
+		$data['categories'] = array();
+		$data['supermenu'] = $this->load->controller('module/supermenu');
+		$data['supermenu_settings'] = $this->load->controller('module/supermenu_settings');
+		$data['language'] = $this->load->controller('common/language');
+		]]></add>
+		</operation>
+	</file>
+	<file path="catalog/view/theme/*/template/common/header.tpl">
+		<operation>
+			<search position="replace"><![CDATA[<?php foreach ($scripts as $script) { ?>]]></search>
+			<add><![CDATA[<?php echo $supermenu_settings; ?>
+<?php foreach ($scripts as $script) { ?>
+			]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[<?php if ($categories) { ?>]]></search>
+			<add><![CDATA[<div class="container"><?php echo $supermenu; ?></div>
+<?php if ($categories) { ?>
+			]]></add>
+		</operation>
+	</file>
+</modification>
